@@ -1,0 +1,38 @@
+{
+  "name": "brewsket",
+  "version": "0.0.10",
+  "private": true,
+  "dependencies": {},
+  "standard-version": {
+    "skip": {
+      "changelog": true
+    }
+  },
+  "scripts": {
+    "start": "SKIP_PREFLIGHT_CHECK=true COMPILE_ON_ERROR=true react-app-rewired start",
+    "build": "SKIP_PREFLIGHT_CHECK=true COMPILE_ON_ERROR=true react-app-rewired build",
+    "build-staging": "env-cmd -f .env.staging react-app-rewired build",
+    "build-live": "env-cmd -f .env.production react-app-rewired build",
+    "test": "SKIP_PREFLIGHT_CHECK=true react-app-rewired test",
+    "eject": "SKIP_PREFLIGHT_CHECK=true react-app-rewired eject"
+  },
+  "devDependencies": {
+    "react-app-rewired": "^2.1.8",
+    "customize-cra": "^1.0.0",
+    "@babel/plugin-proposal-decorators": "^7.12.12",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "standard-version": "^9.1.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

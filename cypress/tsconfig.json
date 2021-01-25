@@ -1,0 +1,23 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "allowJs": false,
+    "checkJs": false,
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "types": ["cypress"]
+  },
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": []
+}
