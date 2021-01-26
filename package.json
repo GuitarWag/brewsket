@@ -61,7 +61,9 @@
     "nanoid": "^3.1.20",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "antd": "^4.11.1"
+    "antd": "^4.11.1",
+    "redux-dynamic-modules": "^5.2.3",
+    "redux-dynamic-modules-saga": "^5.2.3"
   },
   "devDependencies": {
     "@types/antd": "^1.0.0",
