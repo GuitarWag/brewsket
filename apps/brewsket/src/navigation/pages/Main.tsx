@@ -1,15 +1,61 @@
-import { Layout } from 'antd';
+import {
+  AppBar,
+  Container,
+  createStyles,
+  makeStyles,
+  Theme,
+  Toolbar,
+  Typography,
+} from '@material-ui/core';
 import * as React from 'react';
 
-const { Header, Footer, Sider, Content } = Layout;
+import { FormulaesList } from '../../components/FormulaesList';
+import { useStart } from '../../store/full-formulas-list';
 
-export const Main: React.FC = () => (
-  <Layout>
-    <Header style={{ color: '#fff' }}>Header</Header>
-    <Layout>
-      <Content style={{ height: '100vh' }}>Content</Content>
-      <Sider style={{ color: '#fff' }}>Sider</Sider>
-    </Layout>
-    <Footer>Footer</Footer>
-  </Layout>
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    title: {
+      flexGrow: 1,
+    },
+  }),
 );
+
+const Header = () => {
+  const classes = useStyles();
+
+  return (
+    <AppBar position="static">
+      <Toolbar>
+        {/* <IconButton */}
+        {/*  edge="start" */}
+        {/*  className={classes.menuButton} */}
+        {/*  color="inherit" */}
+        {/*  aria-label="menu" */}
+        {/* > */}
+        {/*  <MenuIcon /> */}
+        {/* </IconButton> */}
+        <Typography variant="h6" className={classes.title}>
+          Brewsket
+        </Typography>
+        {/* <Button color="inherit">Login</Button> */}
+      </Toolbar>
+    </AppBar>
+  );
+};
+export const Main: React.FC = () => {
+  useStart();
+  return (
+    <>
+      <Header />
+      <Container>
+        <FormulaesList />
+      </Container>
+    </>
+  );
+};
