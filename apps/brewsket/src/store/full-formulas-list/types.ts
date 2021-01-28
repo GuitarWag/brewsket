@@ -1,5 +1,7 @@
 /* eslint camelcase: 0 */
 
+import { AsyncState } from '../../modules/AsyncReducer';
+
 export interface Versions {
   stable: string;
   devel?: any;
@@ -93,4 +95,16 @@ export interface Formulae {
   linked_keg: string;
   pinned: boolean;
   outdated: boolean;
+}
+
+export const NAMESPACE = 'formulaes-list';
+
+export type FormulaesListStartPayload = null;
+export type FormulaesListSuccessPayload = Formulae[];
+
+export interface RootState {
+  [NAMESPACE]: AsyncState<
+    FormulaesListStartPayload,
+    FormulaesListSuccessPayload
+  >;
 }

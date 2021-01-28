@@ -1,45 +1,33 @@
-import { createSelector } from '@ez-dux/core';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import { take } from 'lodash';
 import { IModule } from 'redux-dynamic-modules';
 
-import { BaseState, createReducer } from '../../modules';
-import { loadError, loadStart, loadSuccess } from './actions';
-import { NAMESPACE } from './constants';
-import { sagas } from './sagas';
-import { Formulae } from './types';
+import { AsyncModule, AsyncState } from '../../modules/AsyncReducer';
+import {
+  FormulaesListStartPayload,
+  FormulaesListSuccessPayload,
+  NAMESPACE,
+} from './types';
 
-const INITIAL_STATE = new BaseState();
-
-export type Action =
-  | ReturnType<typeof loadStart>
-  | ReturnType<typeof loadSuccess>
-  | ReturnType<typeof loadError>;
-
-const createdReducer = createReducer<BaseState, Action>(INITIAL_STATE);
-
-export const useStart = (): void => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(loadStart(null, null));
-  }, [dispatch]);
-};
-
-interface RootState {
-  [NAMESPACE]: BaseState;
+export interface RootState {
+  [NAMESPACE]: AsyncState<null, FormulaesListSuccessPayload>;
 }
-export const useData = (): Formulae[] =>
-  useSelector(createSelector<RootState, Formulae[]>(NAMESPACE, 'data'));
 
-export function getFullFormulasListModule(): IModule<RootState> & {
-  sagas: typeof sagas;
-} {
-  return {
-    id: NAMESPACE,
-    reducerMap: {
-      // @ts-ignore
-      [NAMESPACE]: createdReducer,
-    },
-    sagas,
-  };
+async function getFormulaes(): Promise<FormulaesListSuccessPayload> {
+  const result = await axios.get('https://formulae.brew.sh/api/formula.json');
+  return take(result.data, 20);
+}
+
+const { dynamicModule, hooks } = new AsyncModule<
+  FormulaesListStartPayload,
+  FormulaesListSuccessPayload,
+  RootState
+>(NAMESPACE, 'LOAD_FORMULAES', getFormulaes);
+
+export const {
+  useStartAsyncOnMount: useLoadFormulaesListOnMount,
+  useData: useFormulaesList,
+} = hooks;
+export function getFullFormulasListModule(): IModule<RootState> {
+  return dynamicModule;
 }

@@ -10,7 +10,6 @@ import {
 import * as React from 'react';
 
 import { FormulaesList } from '../../components/FormulaesList';
-import { useStart } from '../../store/full-formulas-list';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -48,14 +47,11 @@ const Header = () => {
     </AppBar>
   );
 };
-export const Main: React.FC = () => {
-  useStart();
-  return (
-    <>
-      <Header />
-      <Container>
-        <FormulaesList />
-      </Container>
-    </>
-  );
-};
+export const Main: React.FC = () => (
+  <>
+    <Header />
+    <Container>
+      <FormulaesList />
+    </Container>
+  </>
+);

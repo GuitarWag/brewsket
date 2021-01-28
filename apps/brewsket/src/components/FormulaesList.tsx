@@ -5,12 +5,18 @@ import {
   CardContent,
   Container,
   makeStyles,
+  TextField,
   Typography,
 } from '@material-ui/core';
 import { map } from 'lodash';
 import * as React from 'react';
+import { ChangeEvent, useCallback } from 'react';
 
-import { useData } from '../store/full-formulas-list';
+import {
+  useFormulaesSearchData,
+  useLoadFormulaesSearch,
+} from '../store/formulaes-search';
+import { useLoadFormulaesListOnMount } from '../store/full-formulas-list';
 
 const useStyles = makeStyles({
   root: {
@@ -28,11 +34,20 @@ const useStyles = makeStyles({
   },
 });
 
-export const FormulaesList: React.FC = () => {
-  const data = useData();
+export const FormulaesListInternal: React.FC = () => {
   const classes = useStyles();
+  useLoadFormulaesListOnMount(null);
+  const search = useLoadFormulaesSearch();
+  const onChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      search({ text: e.target.value });
+    },
+    [search],
+  );
+  const data = useFormulaesSearchData();
   return (
     <Container>
+      <TextField onChange={onChange} />
       {map(data, item => (
         <Card className={classes.root} key={item.name} elevation={10}>
           <CardContent>
@@ -73,3 +88,5 @@ export const FormulaesList: React.FC = () => {
     </Container>
   );
 };
+
+export const FormulaesList: React.FC = () => <FormulaesListInternal />;
